@@ -73,6 +73,11 @@ class Score {
     }
   }
 
+  // 현재 스테이지 레벨 리턴
+  getStageLevel() {
+    return this.stageLevel;
+  }
+
   getItem(itemId) {
     // 아이템 획득시 점수 변화
     this.score += 0;
