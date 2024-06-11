@@ -165,6 +165,7 @@ function reset() {
   cactiController.reset();
   score.reset();
   gameSpeed = GAME_SPEED_START;
+  // 게임시작 핸들러ID 2, payload에는 게임 시작 시간
   sendEvent(2, { timestamp: Date.now() });
 }
 
@@ -208,14 +209,17 @@ function gameLoop(currentTime) {
     player.update(gameSpeed, deltaTime);
     updateGameSpeed(deltaTime);
 
+    // 게임 중일 때 점수 변경
     score.update(deltaTime);
   }
 
-  if (!gameover && cactiController.collideWith(player)) {
+  // 게임 테스트를 위해 주석 처리 (무적)
+  /* if (!gameover && cactiController.collideWith(player)) {
     gameover = true;
     score.setHighScore();
     setupGameReset();
-  }
+  } */
+
   const collideWithItem = itemController.collideWith(player);
   if (collideWithItem && collideWithItem.itemId) {
     score.getItem(collideWithItem.itemId);
