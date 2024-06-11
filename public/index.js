@@ -5,6 +5,7 @@ import Score from './Score.js';
 import ItemController from './ItemController.js';
 import './Socket.js';
 import { sendEvent } from './Socket.js';
+//import { getGameAssets } from '../src/init/assets.js';
 
 const canvas = document.getElementById('game');
 const ctx = canvas.getContext('2d');
