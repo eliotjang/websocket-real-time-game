@@ -2,17 +2,10 @@ import express from 'express';
 import { createServer } from 'http';
 import initSocket from './init/socket.js';
 import { loadGameAssets } from './init/assets.js';
-import cors from 'cors';
 
 const app = express();
 const server = createServer(app);
 const PORT = 3000;
-
-/* const corsOptions = {
-  origin: 'http://127.0.0.1:3000',
-  credentials: true,
-}; */
-//app.use(cors());
 
 // static file(html, css, js) serve middleware
 app.use(express.static('public'));
