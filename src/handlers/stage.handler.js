@@ -21,6 +21,7 @@ export const moveStageHandler = (userId, payload) => {
   const serverTime = Date.now();
   const elapsedTime = (serverTime - currentStage.timestamp) / 1000; // 초 단위로 계산
 
+  // 점수 검증 주석 처리
   // 1초당 1점, 100점이상 다음스테이지 이동, 오차범위 5
   // 클라이언트와 서버 간의 통신 지연시간을 고려해서 오차범위 설정
   // elapsedTime 은 100 이상 105 이하 일 경우만 통과
