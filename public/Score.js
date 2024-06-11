@@ -3,7 +3,12 @@ import { sendEvent } from './Socket.js';
 class Score {
   score = 0;
   HIGH_SCORE_KEY = 'highScore';
-  stageChange = true;
+  stageChange1 = true;
+  stageChange2 = true;
+  stageChange3 = true;
+  stageChange4 = true;
+  stageChange5 = true;
+  stageChange6 = true;
 
   constructor(ctx, scaleRatio) {
     this.ctx = ctx;
@@ -13,9 +18,41 @@ class Score {
 
   update(deltaTime) {
     this.score += deltaTime * 0.001;
-    if (Math.floor(this.score) === 100 && this.stageChange) {
-      this.stageChange = false;
+    // 점수가 10점 이상이 될 시 서버에 메시지 전송
+    if (Math.floor(this.score) === 10 && this.stageChange1) {
+      console.log('get in 10 score loop');
+      this.stageChange1 = false;
       sendEvent(11, { currentStage: 1000, targetStage: 1001 });
+    }
+    // 점수가 20점 이상이 될 시 서버에 메시지 전송
+    if (Math.floor(this.score) === 20 && this.stageChange2) {
+      console.log('get in 20 score loop');
+      this.stageChange2 = false;
+      sendEvent(11, { currentStage: 1001, targetStage: 1002 });
+    }
+    // 점수가 30점 이상이 될 시 서버에 메시지 전송
+    if (Math.floor(this.score) === 30 && this.stageChange3) {
+      console.log('get in 30 score loop');
+      this.stageChange3 = false;
+      sendEvent(11, { currentStage: 1002, targetStage: 1003 });
+    }
+    // 점수가 40점 이상이 될 시 서버에 메시지 전송
+    if (Math.floor(this.score) === 40 && this.stageChange4) {
+      console.log('get in 40 score loop');
+      this.stageChange4 = false;
+      sendEvent(11, { currentStage: 1003, targetStage: 1004 });
+    }
+    // 점수가 50점 이상이 될 시 서버에 메시지 전송
+    if (Math.floor(this.score) === 50 && this.stageChange5) {
+      console.log('get in 50 score loop');
+      this.stageChange5 = false;
+      sendEvent(11, { currentStage: 1004, targetStage: 1005 });
+    }
+    // 점수가 60점 이상이 될 시 서버에 메시지 전송
+    if (Math.floor(this.score) === 60 && this.stageChange6) {
+      console.log('get in 60 score loop');
+      this.stageChange6 = false;
+      sendEvent(11, { currentStage: 1005, targetStage: 1006 });
     }
   }
 

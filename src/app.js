@@ -5,12 +5,15 @@ import { loadGameAssets } from './init/assets.js';
 
 const app = express();
 const server = createServer(app);
-
 const PORT = 3000;
 
+// static file(html, css, js) serve middleware
 app.use(express.static('public'));
+// body parser middleware
 app.use(express.json());
+// content-type이 form인 경우, body data 가져옴
 app.use(express.urlencoded({ extended: false }));
+
 initSocket(server);
 
 app.get('/', (req, res) => {
