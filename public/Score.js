@@ -80,8 +80,6 @@ class Score {
 
   getItem(itemId) {
     // 아이템 획득시 점수 변화
-    const index = items.data.findIndex((e) => e.id === itemId);
-
     console.log(`before get item Score : ${this.score}`);
     this.score += 10;
     console.log(`after get item Score : ${this.score}`);
