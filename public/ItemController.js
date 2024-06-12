@@ -31,7 +31,7 @@ class ItemController {
     const itemId = item_unlock.data[stageLevel].item_id;
 
     // 생성 가능한 아이템 id 목록 출력
-    console.log(itemId);
+    //console.log(itemId);
 
     //const index = this.getRandomNumber(0, this.itemImages.length - 1);
     // item_id의 index중 하나를 랜덤으로 가져옴
@@ -40,7 +40,7 @@ class ItemController {
     const itemInfo = this.itemImages[itemId[index] - 1];
 
     // 아이템 id 및 이미지 내용 출력
-    console.log(`item id : ${itemId[index]}`);
+    //console.log(`item id : ${itemId[index]}`);
     console.log(itemInfo.image);
 
     const x = this.canvas.width * 1.5;
