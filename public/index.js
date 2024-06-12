@@ -5,7 +5,6 @@ import Score from './Score.js';
 import ItemController from './ItemController.js';
 import './Socket.js';
 import { sendEvent } from './Socket.js';
-//import { getGameAssets } from '../src/init/assets.js';
 
 const canvas = document.getElementById('game');
 const ctx = canvas.getContext('2d');
@@ -232,9 +231,6 @@ function gameLoop(currentTime) {
   const collideWithItem = itemController.collideWith(player);
   if (collideWithItem && collideWithItem.itemId) {
     score.getItem(collideWithItem.itemId);
-
-    // 아이템 획득 시 서버에 메시지 전송
-    sendEvent(21, { itemId: collideWithItem.itemId, timestamp: Date.now() });
   }
 
   // draw
