@@ -68,9 +68,13 @@ class Score {
       console.log('get in 60 score loop');
       this.stageChange6 = false;
       sendEvent(11, { currentStage: 1005, targetStage: 1006 });
-      this.stageLevel++;
       console.log(`scorePerSecond : ${this.scorePerSecond}`);
     }
+  }
+
+  // 현재 스테이지 레벨 리턴
+  getStageLevel() {
+    return this.stageLevel;
   }
 
   getItem(itemId) {
