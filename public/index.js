@@ -232,6 +232,9 @@ function gameLoop(currentTime) {
   const collideWithItem = itemController.collideWith(player);
   if (collideWithItem && collideWithItem.itemId) {
     score.getItem(collideWithItem.itemId);
+
+    // 아이템 획득 시 서버에 메시지 전송
+    sendEvent(21, { itemId: collideWithItem.itemId, timestamp: Date.now() });
   }
 
   // draw

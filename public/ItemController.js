@@ -1,9 +1,11 @@
 import Item from './Item.js';
 import item_unlock from './assets/item_unlock.json' with { type: 'json' };
+import items from './assets/item.json' with { type: 'json' };
 
 class ItemController {
-  INTERVAL_MIN = 0;
-  INTERVAL_MAX = 12000;
+  // 아이템 최소 생성시간 5초
+  INTERVAL_MIN = 5000;
+  //INTERVAL_MAX = 12000;
 
   nextInterval = null;
   items = [];
@@ -15,11 +17,19 @@ class ItemController {
     this.scaleRatio = scaleRatio;
     this.speed = speed;
 
-    this.setNextItemTime();
+    // item id가 1인 아이템 생성
+    this.setNextItemTime(1);
   }
 
-  setNextItemTime() {
-    this.nextInterval = this.getRandomNumber(this.INTERVAL_MIN, this.INTERVAL_MAX);
+  // 아이템 생성 시간 설정
+  setNextItemTime(itemId) {
+    const index = items.data.findIndex((e) => e.id === itemId);
+    const responseTime = items.data[index].responseTime * 1000;
+
+    //this.nextInterval = responseTime;
+    this.nextInterval = this.getRandomNumber(this.INTERVAL_MIN, responseTime);
+
+    console.log(`item id : ${itemId}, item nextInterval : ${this.nextInterval}`);
   }
 
   getRandomNumber(min, max) {
@@ -57,12 +67,15 @@ class ItemController {
     );
 
     this.items.push(item);
+
+    // 생성한 아이템 ID 반환
+    return itemId[index];
   }
 
   update(gameSpeed, deltaTime, stageLevel) {
     if (this.nextInterval <= 0) {
-      this.createItem(stageLevel);
-      this.setNextItemTime();
+      const itemId = this.createItem(stageLevel);
+      this.setNextItemTime(itemId);
     }
 
     this.nextInterval -= deltaTime;
