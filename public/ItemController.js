@@ -72,9 +72,9 @@ class ItemController {
     return itemId[index];
   }
 
-  update(gameSpeed, deltaTime, stageLevel) {
+  update(gameSpeed, deltaTime, stageIndex) {
     if (this.nextInterval <= 0) {
-      const itemId = this.createItem(stageLevel);
+      const itemId = this.createItem(stageIndex);
       this.setNextItemTime(itemId);
     }
 
