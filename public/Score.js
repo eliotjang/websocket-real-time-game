@@ -12,6 +12,7 @@ class Score {
   stageChange5 = true;
   stageChange6 = true;
   stageLevel = 0;
+  stageId = 1001;
   scorePerSecond = 1;
 
   constructor(ctx, scaleRatio) {
@@ -22,51 +23,56 @@ class Score {
 
   update(deltaTime) {
     this.scorePerSecond = stages.data[this.stageLevel].scorePerSecond;
-
     this.score += deltaTime * 0.001 * this.scorePerSecond;
-    // 점수가 10점 이상이 될 시 서버에 메시지 전송
-    if (Math.floor(this.score) >= 10 && this.stageChange1) {
-      console.log('get in 10 score loop');
+
+    // 점수가 100점 이상이 될 시 서버에 메시지 전송
+    if (Math.floor(this.score) >= 100 && this.stageChange1) {
+      console.log('[Stage 1] get in 100 score!');
       this.stageChange1 = false;
       sendEvent(11, { currentStage: 1000, targetStage: 1001 });
       this.stageLevel++;
+      this.stageId++;
       console.log(`scorePerSecond : ${this.scorePerSecond}`);
     }
-    // 점수가 20점 이상이 될 시 서버에 메시지 전송
-    if (Math.floor(this.score) >= 20 && this.stageChange2) {
-      console.log('get in 20 score loop');
+    // 점수가 200점 이상이 될 시 서버에 메시지 전송
+    if (Math.floor(this.score) >= 200 && this.stageChange2) {
+      console.log('[Stage 2] get in 200 score!');
       this.stageChange2 = false;
       sendEvent(11, { currentStage: 1001, targetStage: 1002 });
       this.stageLevel++;
+      this.stageId++;
       console.log(`scorePerSecond : ${this.scorePerSecond}`);
     }
-    // 점수가 30점 이상이 될 시 서버에 메시지 전송
-    if (Math.floor(this.score) >= 30 && this.stageChange3) {
-      console.log('get in 30 score loop');
+    // 점수가 300점 이상이 될 시 서버에 메시지 전송
+    if (Math.floor(this.score) >= 300 && this.stageChange3) {
+      console.log('[Stage 3] get in 300 score!');
       this.stageChange3 = false;
       sendEvent(11, { currentStage: 1002, targetStage: 1003 });
       this.stageLevel++;
+      this.stageId++;
       console.log(`scorePerSecond : ${this.scorePerSecond}`);
     }
-    // 점수가 40점 이상이 될 시 서버에 메시지 전송
-    if (Math.floor(this.score) >= 40 && this.stageChange4) {
-      console.log('get in 40 score loop');
+    // 점수가 400점 이상이 될 시 서버에 메시지 전송
+    if (Math.floor(this.score) >= 400 && this.stageChange4) {
+      console.log('[Stage 4] get in 400 score!');
       this.stageChange4 = false;
       sendEvent(11, { currentStage: 1003, targetStage: 1004 });
       this.stageLevel++;
+      this.stageId++;
       console.log(`scorePerSecond : ${this.scorePerSecond}`);
     }
-    // 점수가 50점 이상이 될 시 서버에 메시지 전송
-    if (Math.floor(this.score) >= 50 && this.stageChange5) {
-      console.log('get in 50 score loop');
+    // 점수가 500점 이상이 될 시 서버에 메시지 전송
+    if (Math.floor(this.score) >= 500 && this.stageChange5) {
+      console.log('[Stage 5] get in 500 score!');
       this.stageChange5 = false;
       sendEvent(11, { currentStage: 1004, targetStage: 1005 });
       this.stageLevel++;
+      this.stageId++;
       console.log(`scorePerSecond : ${this.scorePerSecond}`);
     }
-    // 점수가 60점 이상이 될 시 서버에 메시지 전송
-    if (Math.floor(this.score) >= 60 && this.stageChange6) {
-      console.log('get in 60 score loop');
+    // 점수가 600점 이상이 될 시 서버에 메시지 전송
+    if (Math.floor(this.score) >= 600 && this.stageChange6) {
+      console.log('[Stage 6] get in 600 score!');
       this.stageChange6 = false;
       sendEvent(11, { currentStage: 1005, targetStage: 1006 });
       console.log(`scorePerSecond : ${this.scorePerSecond}`);
@@ -79,19 +85,19 @@ class Score {
   }
 
   getItem(itemId) {
-    // 아이템 획득시 점수 변화
+    // 현재 점수에 아이템 획득 점수 추가
+    const index = items.data.findIndex((e) => e.id === itemId);
     console.log(`before get item Score : ${this.score}`);
-    this.score += 10;
+    this.score += items.data[index].score;
     console.log(`after get item Score : ${this.score}`);
 
-    // 5. Update 아이템 별 획득 점수 구분 시 추가 로직
-    // 아이템 id와 점수 출력
-    // console.log(`itemId : ${itemId}, itemScore : ${items.data[index].score}`);
-
-    // 현재 점수에 아이템 획득 점수 추가
-    // console.log(`before get item Score : ${this.score}`);
-    // this.score += items.data[index].score;
-    // console.log(`after get item Score : ${this.score}`);
+    // 아이템 획득 시 서버에 메시지 전송
+    sendEvent(21, {
+      itemId,
+      score: items.data[index].score,
+      stageId: this.stageId,
+      timestamp: Date.now(),
+    });
   }
 
   reset() {
