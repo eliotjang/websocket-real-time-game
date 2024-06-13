@@ -208,7 +208,7 @@ function gameLoop(currentTime) {
     cactiController.update(gameSpeed, deltaTime);
 
     // 현재 스테이지 인덱스
-    const stageIndex = score.getStageLevel() - 1;
+    const stageIndex = score.getStageLevel();
 
     // 아이템
     itemController.update(gameSpeed, deltaTime, stageIndex);
