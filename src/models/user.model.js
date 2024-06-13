@@ -20,3 +20,11 @@ export const removeUser = (socketId) => {
 export const getUsers = () => {
   return users;
 };
+
+// 유저 조회
+export const findUser = (socketId) => {
+  const index = users.findIndex((user) => user.socketId === socketId);
+  if (index != -1) {
+    return users[index];
+  }
+};
