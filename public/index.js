@@ -221,12 +221,11 @@ function gameLoop(currentTime) {
     score.update(deltaTime);
   }
 
-  // 게임 테스트를 위해 주석 처리 (무적)
-  /* if (!gameover && cactiController.collideWith(player)) {
+  if (!gameover && cactiController.collideWith(player)) {
     gameover = true;
     score.setHighScore();
     setupGameReset();
-  } */
+  }
 
   const collideWithItem = itemController.collideWith(player);
   if (collideWithItem && collideWithItem.itemId) {
