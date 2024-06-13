@@ -5,14 +5,10 @@ import items from './assets/item.json' with { type: 'json' };
 class Score {
   score = 0;
   HIGH_SCORE_KEY = 'highScore';
-  stageChange1 = true;
-  stageChange2 = true;
-  stageChange3 = true;
-  stageChange4 = true;
-  stageChange5 = true;
-  stageChange6 = true;
+  stageChange = true;
   stageLevel = 0;
-  stageId = 1001;
+  currentStageId = 1000;
+  targetStageId = 1001;
   scorePerSecond = 1;
 
   constructor(ctx, scaleRatio) {
@@ -21,65 +17,34 @@ class Score {
     this.scaleRatio = scaleRatio;
   }
 
+  moveNextStage() {
+    this.stageLevel++;
+    console.log(`Stage Level : ${this.stageLevel}`);
+    sendEvent(11, { currentStage: this.currentStageId, targetStage: this.targetStageId });
+    this.currentStageId = this.targetStageId;
+    this.targetStageId++;
+  }
+
   update(deltaTime) {
     this.scorePerSecond = stages.data[this.stageLevel].scorePerSecond;
     this.score += deltaTime * 0.001 * this.scorePerSecond;
 
-    // 점수가 100점 이상이 될 시 서버에 메시지 전송
-    if (Math.floor(this.score) >= 100 && this.stageChange1) {
-      console.log('[Stage 1] get in 100 score!');
-      this.stageChange1 = false;
-      sendEvent(11, { currentStage: 1000, targetStage: 1001 });
-      this.stageLevel++;
-      this.stageId++;
-      console.log(`scorePerSecond : ${this.scorePerSecond}`);
+    const index = stages.data.findIndex((e) => e.id === this.targetStageId);
+    const stageLength = stages.data.length;
+
+    let nextStageScore = null;
+    if (index === stageLength - 1) {
+      this.stageChange = false;
+    } else {
+      nextStageScore = stages.data[index].score;
     }
-    // 점수가 200점 이상이 될 시 서버에 메시지 전송
-    if (Math.floor(this.score) >= 200 && this.stageChange2) {
-      console.log('[Stage 2] get in 200 score!');
-      this.stageChange2 = false;
-      sendEvent(11, { currentStage: 1001, targetStage: 1002 });
-      this.stageLevel++;
-      this.stageId++;
-      console.log(`scorePerSecond : ${this.scorePerSecond}`);
-    }
-    // 점수가 300점 이상이 될 시 서버에 메시지 전송
-    if (Math.floor(this.score) >= 300 && this.stageChange3) {
-      console.log('[Stage 3] get in 300 score!');
-      this.stageChange3 = false;
-      sendEvent(11, { currentStage: 1002, targetStage: 1003 });
-      this.stageLevel++;
-      this.stageId++;
-      console.log(`scorePerSecond : ${this.scorePerSecond}`);
-    }
-    // 점수가 400점 이상이 될 시 서버에 메시지 전송
-    if (Math.floor(this.score) >= 400 && this.stageChange4) {
-      console.log('[Stage 4] get in 400 score!');
-      this.stageChange4 = false;
-      sendEvent(11, { currentStage: 1003, targetStage: 1004 });
-      this.stageLevel++;
-      this.stageId++;
-      console.log(`scorePerSecond : ${this.scorePerSecond}`);
-    }
-    // 점수가 500점 이상이 될 시 서버에 메시지 전송
-    if (Math.floor(this.score) >= 500 && this.stageChange5) {
-      console.log('[Stage 5] get in 500 score!');
-      this.stageChange5 = false;
-      sendEvent(11, { currentStage: 1004, targetStage: 1005 });
-      this.stageLevel++;
-      this.stageId++;
-      console.log(`scorePerSecond : ${this.scorePerSecond}`);
-    }
-    // 점수가 600점 이상이 될 시 서버에 메시지 전송
-    if (Math.floor(this.score) >= 600 && this.stageChange6) {
-      console.log('[Stage 6] get in 600 score!');
-      this.stageChange6 = false;
-      sendEvent(11, { currentStage: 1005, targetStage: 1006 });
-      console.log(`scorePerSecond : ${this.scorePerSecond}`);
+
+    if (Math.floor(this.score) >= nextStageScore && this.stageChange) {
+      this.moveNextStage();
     }
   }
 
-  // 현재 스테이지 레벨 리턴 [ 0스테이지 ~ 5스테이지 ]
+  // 현재 스테이지 레벨 리턴
   getStageLevel() {
     return this.stageLevel;
   }
@@ -95,7 +60,7 @@ class Score {
     sendEvent(21, {
       itemId,
       score: items.data[index].score,
-      stageId: this.stageId,
+      stageId: this.currentStageId,
       timestamp: Date.now(),
     });
   }

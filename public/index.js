@@ -207,11 +207,11 @@ function gameLoop(currentTime) {
     // 선인장
     cactiController.update(gameSpeed, deltaTime);
 
-    // 현재 스테이지
-    const stageLevel = score.getStageLevel();
+    // 현재 스테이지 인덱스
+    const stageIndex = score.getStageLevel();
 
     // 아이템
-    itemController.update(gameSpeed, deltaTime, stageLevel);
+    itemController.update(gameSpeed, deltaTime, stageIndex);
 
     // 달리기
     player.update(gameSpeed, deltaTime);

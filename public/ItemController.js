@@ -5,7 +5,6 @@ import items from './assets/item.json' with { type: 'json' };
 class ItemController {
   // 아이템 최소 생성시간 5초
   INTERVAL_MIN = 5000;
-  //INTERVAL_MAX = 12000;
 
   nextInterval = null;
   items = [];
@@ -36,21 +35,16 @@ class ItemController {
     return Math.floor(Math.random() * (max - min + 1) + min);
   }
 
-  createItem(stageLevel) {
+  createItem(stageIndex) {
     // item_unlock.json의 데이터 테이블 item_id
-    const itemId = item_unlock.data[stageLevel].item_id;
+    const itemId = item_unlock.data[stageIndex].item_id;
 
-    // 생성 가능한 아이템 id 목록 출력
-    //console.log(itemId);
-
-    //const index = this.getRandomNumber(0, this.itemImages.length - 1);
     // item_id의 index중 하나를 랜덤으로 가져옴
     const index = this.getRandomNumber(0, itemId.length - 1);
     // index의 item_id의 값 할당
     const itemInfo = this.itemImages[itemId[index] - 1];
 
     // 아이템 id 및 이미지 내용 출력
-    //console.log(`item id : ${itemId[index]}`);
     console.log(itemInfo.image);
 
     const x = this.canvas.width * 1.5;
@@ -72,9 +66,9 @@ class ItemController {
     return itemId[index];
   }
 
-  update(gameSpeed, deltaTime, stageLevel) {
+  update(gameSpeed, deltaTime, stageIndex) {
     if (this.nextInterval <= 0) {
-      const itemId = this.createItem(stageLevel);
+      const itemId = this.createItem(stageIndex);
       this.setNextItemTime(itemId);
     }
 
