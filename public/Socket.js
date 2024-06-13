@@ -1,4 +1,6 @@
 import { CLIENT_VERSION } from './Constants.js';
+import { setHighScore } from './index.js';
+import Score from './Score.js';
 
 const socket = io('http://localhost:3000', {
   query: {
@@ -8,6 +10,9 @@ const socket = io('http://localhost:3000', {
 
 let userId = null;
 socket.on('response', (data) => {
+  if (data.score) {
+    Score.setHighScore(data.score);
+  }
   console.log(data);
 });
 
@@ -24,5 +29,9 @@ const sendEvent = (handlerId, payload) => {
     payload,
   });
 };
+
+socket.on('broadcast', (data) => {
+  Score.setHighScore(data.broadcast[1]);
+});
 
 export { sendEvent };

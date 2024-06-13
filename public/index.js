@@ -6,6 +6,9 @@ import ItemController from './ItemController.js';
 import './Socket.js';
 import { sendEvent } from './Socket.js';
 
+// 최고기록 점수
+let staticHighScore = 0;
+
 const canvas = document.getElementById('game');
 const ctx = canvas.getContext('2d');
 
@@ -58,6 +61,10 @@ let gameSpeed = GAME_SPEED_START;
 let gameover = false;
 let hasAddedEventListenersForRestart = false;
 let waitingToStart = true;
+
+export const setHighScore = (highScore) => {
+  staticHighScore = highScore;
+};
 
 function createSprites() {
   // 비율에 맞는 크기
@@ -221,9 +228,14 @@ function gameLoop(currentTime) {
     score.update(deltaTime);
   }
 
+  // 게임 종료
   if (!gameover && cactiController.collideWith(player)) {
+    console.log('game over');
     gameover = true;
-    score.setHighScore();
+
+    const gameScore = score.getScore();
+    sendEvent(3, { timestamp: Date.now(), score: gameScore });
+
     setupGameReset();
   }
 
