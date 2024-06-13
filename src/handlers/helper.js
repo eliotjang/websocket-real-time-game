@@ -45,7 +45,7 @@ export const handleEvent = (io, socket, data) => {
   const response = handler(data.userId, data.payload);
   // 만약 결과에 broadcast(모든 유저에게 전달)가 있다면 broadcast
   if (response.broadcast) {
-    io.emit('response', 'broadcast');
+    io.emit('response', response);
     return;
   }
   // 해당 유저에게 적절한 response 전달
