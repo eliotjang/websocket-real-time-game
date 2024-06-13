@@ -10,6 +10,9 @@ const socket = io('http://localhost:3000', {
 
 let userId = null;
 socket.on('response', (data) => {
+  if (data.score) {
+    Score.setHighScore(data.score);
+  }
   console.log(data);
 });
 
@@ -28,8 +31,6 @@ const sendEvent = (handlerId, payload) => {
 };
 
 socket.on('broadcast', (data) => {
-  console.log(`${data.broadcast[0]} 님이 최고 점수를 달성 했습니다.`);
-  console.log(`현재 최고 점수 : ${data.broadcast[1]}`);
   Score.setHighScore(data.broadcast[1]);
 });
 

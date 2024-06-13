@@ -3,7 +3,7 @@ import stages from './assets/stage.json' with { type: 'json' };
 import items from './assets/item.json' with { type: 'json' };
 
 class Score {
-  highScore = 0;
+  static highScore = 0;
   score = 0;
   HIGH_SCORE_KEY = 'highScore';
   stageChange = true;
@@ -53,9 +53,7 @@ class Score {
   getItem(itemId) {
     // 현재 점수에 아이템 획득 점수 추가
     const index = items.data.findIndex((e) => e.id === itemId);
-    console.log(`before get item Score : ${this.score}`);
     this.score += items.data[index].score;
-    console.log(`after get item Score : ${this.score}`);
 
     // 아이템 획득 시 서버에 메시지 전송
     sendEvent(21, {
@@ -71,16 +69,11 @@ class Score {
   }
 
   static setHighScore(data) {
-    this.highScore = data;
-    console.log(this.highScore);
-    /* const highScore = Number(localStorage.getItem(this.HIGH_SCORE_KEY));
-    if (this.score > highScore) {
-      localStorage.setItem(this.HIGH_SCORE_KEY, Math.floor(this.score));
-    } */
+    Score.highScore = data;
   }
 
   static getHighScore() {
-    return this.highScore;
+    return Score.highScore;
   }
 
   getScore() {
@@ -88,9 +81,7 @@ class Score {
   }
 
   draw() {
-    //const highScore = Number(localStorage.getItem(this.HIGH_SCORE_KEY));
-    const highScore = this.highScore;
-    console.log(highScore);
+    const drawHighScore = Score.highScore;
     const y = 20 * this.scaleRatio;
 
     const fontSize = 20 * this.scaleRatio;
@@ -101,7 +92,7 @@ class Score {
     const highScoreX = scoreX - 125 * this.scaleRatio;
 
     const scorePadded = Math.floor(this.score).toString().padStart(6, 0);
-    const highScorePadded = highScore.toString().padStart(6, 0);
+    const highScorePadded = drawHighScore.toString().padStart(6, 0);
 
     this.ctx.fillText(scorePadded, scoreX, y);
     this.ctx.fillText(`HI ${highScorePadded}`, highScoreX, y);
