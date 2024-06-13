@@ -3,6 +3,7 @@ import stages from './assets/stage.json' with { type: 'json' };
 import items from './assets/item.json' with { type: 'json' };
 
 class Score {
+  highScore = 0;
   score = 0;
   HIGH_SCORE_KEY = 'highScore';
   stageChange = true;
@@ -69,14 +70,17 @@ class Score {
     this.score = 0;
   }
 
-  setHighScore() {
-    const highScore = Number(localStorage.getItem(this.HIGH_SCORE_KEY));
+  static setHighScore(data) {
+    this.highScore = data;
+    console.log(this.highScore);
+    /* const highScore = Number(localStorage.getItem(this.HIGH_SCORE_KEY));
     if (this.score > highScore) {
       localStorage.setItem(this.HIGH_SCORE_KEY, Math.floor(this.score));
-      sendEvent(31, {
-        score: this.score,
-      });
-    }
+    } */
+  }
+
+  static getHighScore() {
+    return this.highScore;
   }
 
   getScore() {
@@ -84,7 +88,9 @@ class Score {
   }
 
   draw() {
-    const highScore = Number(localStorage.getItem(this.HIGH_SCORE_KEY));
+    //const highScore = Number(localStorage.getItem(this.HIGH_SCORE_KEY));
+    const highScore = this.highScore;
+    console.log(highScore);
     const y = 20 * this.scaleRatio;
 
     const fontSize = 20 * this.scaleRatio;

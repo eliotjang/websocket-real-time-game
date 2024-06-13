@@ -1,5 +1,6 @@
 import { getGameAssets } from '../init/assets.js';
 import { clearStage, getStage, setStage } from '../models/stage.model.js';
+import { getHighScoreRecord, getScoreRecord, setScoreRecord } from '../models/scoreRecord.model.js';
 
 export const gameStart = (uuid, payload) => {
   // 서버 메모리에 있는 게임 애셋에서 stage 정보를 가지고 온다.
@@ -18,6 +19,8 @@ export const gameEnd = (uuid, payload) => {
   // 클라이언트에서 받은 게임 종료 시 타임스탬프와 총 점수
   const { timestamp: gameEndTime, score } = payload;
   const stages = getStage(uuid);
+
+  console.log(payload);
 
   if (!stages.length) {
     return { status: 'fail', message: 'No stages found for user' };
@@ -45,6 +48,22 @@ export const gameEnd = (uuid, payload) => {
   }
 
   // 모든 검증이 통과된 후, 클라이언트에서 제공한 점수 저장하는 로직
+  const highScore = getScoreRecord(uuid);
+  // 기존 기록보다 클라이언트에서 제공한 점수가 높으면 점수 변경
+  if (highScore < Math.floor(score)) {
+    setScoreRecord(uuid, Math.floor(score));
+  }
+  console.log('test');
+  const highScoreRecord = getHighScoreRecord();
+  console.log(highScoreRecord);
+  if (highScoreRecord[1] !== 0) {
+    return {
+      status: 'success',
+      message: 'Game ended successfully',
+      broadcast: highScoreRecord,
+    };
+  }
+
   // saveGameResult(userId, clientScore, gameEndTime);
   // 검증이 통과되면 게임 종료 처리
   return { status: 'success', message: 'Game ended successfully', score };

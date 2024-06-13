@@ -1,4 +1,6 @@
 import { CLIENT_VERSION } from './Constants.js';
+import { setHighScore } from './index.js';
+import Score from './Score.js';
 
 const socket = io('http://localhost:3000', {
   query: {
@@ -24,5 +26,11 @@ const sendEvent = (handlerId, payload) => {
     payload,
   });
 };
+
+socket.on('broadcast', (data) => {
+  console.log(`${data.broadcast[0]} 님이 최고 점수를 달성 했습니다.`);
+  console.log(`현재 최고 점수 : ${data.broadcast[1]}`);
+  Score.setHighScore(data.broadcast[1]);
+});
 
 export { sendEvent };
