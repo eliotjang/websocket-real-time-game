@@ -7,7 +7,7 @@ import {
   setScoreRecord,
 } from '../models/scoreRecord.model.js';
 
-export const gameStart = (uuid, payload) => {
+export const gameStart = async (uuid, payload) => {
   // 서버 메모리에 있는 게임 애셋에서 stage 정보를 가지고 온다.
   const { stages } = getGameAssets();
 
