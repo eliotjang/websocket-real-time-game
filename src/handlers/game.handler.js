@@ -13,22 +13,10 @@ export const gameStart = async (uuid, payload) => {
 
   clearStage(uuid);
 
-  // 기존 기록이 없으면 scoreRecord에 저장
-  if (!getScoreRecord(uuid)) {
-    console.log('기존 기록이 없어 점수를 초기화합니다.');
-    createScoreRecord(uuid);
-  }
-
-  let highRecord = '';
-  const highScoreRecord = getHighScoreRecord();
-  if (highScoreRecord[0] === uuid) {
-    highRecord = `현재 최고 점수에 도달하신 전적이 있습니다! ${highScoreRecord[1]}`;
-  }
-
   // stage 배열에서 0번째 = 첫번째 스테이지의 ID를 해당 유저의 stage에 저장한다.
   setStage(uuid, stages.data[0].id, payload.timestamp);
 
-  return { status: 'success', score: highScoreRecord[1], highRecord };
+  return { status: 'success' };
 };
 
 export const gameEnd = (uuid, payload) => {
@@ -43,19 +31,32 @@ export const gameEnd = (uuid, payload) => {
   }
 
   // 기존 기록보다 클라이언트에서 제공한 점수가 높으면 점수 변경
-  const highScore = getScoreRecord(uuid);
-  if (highScore < Math.floor(score)) {
-    setScoreRecord(uuid, Math.floor(score));
-  }
-  const highScoreRecord = getHighScoreRecord();
-  console.log('최고 점수 확인', highScoreRecord);
+  if (!getScoreRecord(uuid)) {
+    setScoreRecord(uuid, score);
+  } else {
+    const highScore = getScoreRecord(uuid);
+    console.log('점수 비교', highScore, Math.floor(score));
+    if (highScore < Math.floor(score)) {
+      setScoreRecord(uuid, Math.floor(score));
+    }
+    const highScoreRecord = getHighScoreRecord();
+    console.log('최고 점수 확인', highScoreRecord);
+    console.log('다시 가져온 유저의 점수', getScoreRecord(uuid));
 
-  if (highScoreRecord[1] !== 0) {
-    return {
-      status: 'success',
-      message: 'Game ended successfully',
-      broadcast: highScoreRecord,
-    };
+    let highRecord = '';
+    if (highScoreRecord[0] === uuid) {
+      highRecord = `${highScoreRecord[0]}님이 달성한 최고 점수 [ ${Math.floor(highScoreRecord[1])}점 ]`;
+    }
+
+    if (highScoreRecord[1] !== 0) {
+      return {
+        status: 'success',
+        message: 'Game ended successfully',
+        broadcast: highScoreRecord,
+        score,
+        highRecord,
+      };
+    }
   }
 
   return { status: 'success', message: 'Game ended successfully', score };

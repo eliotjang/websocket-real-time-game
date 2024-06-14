@@ -2,8 +2,8 @@ import { getUsers, removeUser } from '../models/user.model.js';
 import { CLIENT_VERSION } from '../constants.js';
 import handlerMappings from './handlerMapping.js';
 import { createStage } from '../models/stage.model.js';
-import { createScoreRecord } from '../models/scoreRecord.model.js';
-import { getHighScoreRecord } from '../models/scoreRecord.model.js';
+import { createScoreRecord, setScoreRecord } from '../models/scoreRecord.model.js';
+import { getHighScoreRecord, getScoreRecord } from '../models/scoreRecord.model.js';
 
 export const handleConnection = (socket, userUUID) => {
   console.log(`user connected: ${userUUID} with socket ID ${socket.id}`);
@@ -12,12 +12,21 @@ export const handleConnection = (socket, userUUID) => {
   // 스테이지 빈 배열 생성
   createStage(userUUID);
 
-  // 빈 최고 점수 기록 생성
-  createScoreRecord(userUUID);
+  //최고점수 테스트
+  //setScoreRecord(userUUID, 10000);
+
+  // 기존 기록이 없으면 scoreRecord에 저장
+  let highRecord = '';
+  if (!getScoreRecord(userUUID)) {
+    console.log('기존 기록이 없어 점수를 초기화합니다.');
+    createScoreRecord(userUUID);
+  } else {
+    highRecord = `유저님의 최고 점수입니다. [ ${highScoreRecord[1]}점 ]`;
+  }
 
   // emit 메서드로 해당 유저에게 메시지를 전달할 수 있음
   // 현재의 경우 접속하고 나서 생성된 uuid를 바로 전달해줌
-  socket.emit('connection', { uuid: userUUID });
+  socket.emit('connection', { uuid: userUUID, highRecord });
 };
 
 export const handleDisconnect = (socket, uuid) => {
@@ -53,6 +62,7 @@ export const handleEvent = (io, socket, data) => {
     io.emit('broadcast', response);
     return;
   }
+
   // 해당 유저에게 적절한 response 전달
   socket.emit('response', response);
 };
