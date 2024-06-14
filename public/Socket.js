@@ -14,6 +14,12 @@ socket.on('response', (data) => {
   }
   console.log(data);
 });
+socket.on('event', (data) => {
+  if (data.score) {
+    Score.setHighScore(data.score);
+  }
+  console.log(data);
+});
 
 socket.on('connection', (data) => {
   const user = window.localStorage.getItem('client');
