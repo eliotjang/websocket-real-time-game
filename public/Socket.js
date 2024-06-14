@@ -1,7 +1,7 @@
 import { CLIENT_VERSION } from './Constants.js';
 import Score from './Score.js';
 
-const socket = io('http://13.209.73.219:3000', {
+const socket = io('http://eliotjang.shop:3000', {
   query: {
     clientVersion: CLIENT_VERSION,
   },
@@ -9,12 +9,6 @@ const socket = io('http://13.209.73.219:3000', {
 
 let userId = null;
 socket.on('response', (data) => {
-  if (data.score) {
-    Score.setHighScore(data.score);
-  }
-  console.log(data);
-});
-socket.on('event', (data) => {
   if (data.score) {
     Score.setHighScore(data.score);
   }
