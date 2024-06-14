@@ -4,38 +4,38 @@
 
 - 소켓 송수신 네임 스페이스
 
-  - connection : 클라이언트와 서버의 연결 설정
-  - response : 클라이언트에서 요청한 내용을 서버가 송수신
-  - broadcast : 서버에서 모든 유저에게 결과를 송신
-  - event : 클라이언트에 수신한 모든 서비스 이벤트 처리
-  - disconnect : 클라이언트와 서버의 연결 해제
+  - `connection` : 클라이언트와 서버의 연결 설정
+  - `response` : 클라이언트에서 요청한 내용을 서버가 송수신
+  - `broadcast` : 서버에서 모든 유저에게 결과를 송신
+  - `event` : 클라이언트에 수신한 모든 서비스 이벤트 처리
+  - `disconnect` : 클라이언트와 서버의 연결 해제
 
 - 패킷 구조
 
-  - userId : 서버에서 생성한 UUID
-  - clientVersion : 클라이언트 / 서버가 사용하고 있는 데이터 테이블 버전
-  - handlerId : 서버에서 사용하는 핸들러 맵핑 번호
-  - payload : 클라이언트 / 서버 소켓 통신 간 주고받는 메타데이터
+  - `userId` : 서버에서 생성한 UUID
+  - `clientVersion` : 클라이언트 / 서버가 사용하고 있는 데이터 테이블 버전
+  - `handlerId` : 서버에서 사용하는 핸들러 맵핑 번호
+  - `payload` : 클라이언트 / 서버 소켓 통신 간 주고받는 메타데이터
 
 - gameStart 핸들러 반환값
 
-  - status : 소켓 통신 반환 상태 (`success`)
-  - score : 서버에서 저장한 최고 점수
+  - `status` : 소켓 통신 반환 상태 (`success`)
+  - `score` : 서버에서 저장한 최고 점수
 
 - gameEnd 핸들러 반환값
 
-  - status : 소켓 통신 반환 상태 (`success` , `fail`)
-  - message : 서버가 수행한 로직에 따른 메시지
-  - score : 성공적으로 반환될 경우, 클라이언트가 송신한 점수를 반환
+  - `status` : 소켓 통신 반환 상태 (`success` , `fail`)
+  - `message` : 서버가 수행한 로직에 따른 메시지
+  - `score` : 성공적으로 반환될 경우, 클라이언트가 송신한 점수를 반환
 
 - acquireItemHandler 핸들러 반환값
 
-  - status : 소켓 통신 반환 상태 (`success` , `fail`)
-  - message : 서버가 수행한 로직에 따른 메시지
+  - `status` : 소켓 통신 반환 상태 (`success` , `fail`)
+  - `message` : 서버가 수행한 로직에 따른 메시지
 
 - moveStagehandler 핸들러 반환값
-  - status : 소켓 통신 반환 상태 (`success` , `fail`)
-  - message : 서버가 수행한 로직에 따른 메시지
+  - `status` : 소켓 통신 반환 상태 (`success` , `fail`)
+  - `message` : 서버가 수행한 로직에 따른 메시지
 
 ### 데이터 테이블
 
