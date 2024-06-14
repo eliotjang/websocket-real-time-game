@@ -69,7 +69,7 @@ class Score {
   }
 
   static setHighScore(data) {
-    Score.highScore = data;
+    Score.highScore = Math.floor(data);
   }
 
   static getHighScore() {

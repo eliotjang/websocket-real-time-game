@@ -6,9 +6,6 @@ import ItemController from './ItemController.js';
 import './Socket.js';
 import { sendEvent } from './Socket.js';
 
-// 최고기록 점수
-let staticHighScore = 0;
-
 const canvas = document.getElementById('game');
 const ctx = canvas.getContext('2d');
 
