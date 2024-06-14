@@ -1,5 +1,9 @@
 # WebSocket Real-Time Game Server
 
+### 다이노 게임
+
+- [게임 시작 링크](http://eliotjang.shop:3000/)
+
 ### 패킷 구조 설계
 
 - 소켓 송수신 네임 스페이스
