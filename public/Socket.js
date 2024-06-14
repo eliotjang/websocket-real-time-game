@@ -1,7 +1,7 @@
 import { CLIENT_VERSION } from './Constants.js';
 import Score from './Score.js';
 
-const socket = io('http://localhost:3000', {
+const socket = io('http://eliotjang.shop:3000', {
   query: {
     clientVersion: CLIENT_VERSION,
   },
